@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// Muutetaan baseUrl osoittamaan oikeaan API-reittiin
-const baseUrl = 'http://localhost:3001/api/persons';
+// Käytetään suhteellista URL-osoitetta, joka toimii sekä paikallisesti että tuotannossa
+const baseUrl = '/api/persons';
 
 const getAll = () => {
   const request = axios.get(baseUrl);
