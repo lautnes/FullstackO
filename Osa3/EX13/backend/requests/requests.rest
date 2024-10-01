@@ -1,0 +1,27 @@
+# Get all persons
+GET https://phonebook-backend-nl.onrender.com/api/persons
+Content-Type: application/json
+
+###
+
+# Get a single person by ID (replace {id} with a valid ID)
+GET https://phonebook-backend-nl.onrender.com/api/persons/1
+Content-Type: application/json
+
+###
+
+# Add a new person (POST request)
+POST https://phonebook-backend-nl.onrender.com/api/persons
+Content-Type: application/json
+
+{
+  "name": "Nestori Lautanala",
+  "number": "040-1234567"
+}
+
+###
+
+
+# Delete a person by ID (replace {id} with the person ID to delete)
+DELETE https://phonebook-backend-nl.onrender.com/api/persons/1
+Content-Type: application/json
