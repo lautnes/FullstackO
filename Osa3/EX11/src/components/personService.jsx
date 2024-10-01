@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// Käytetään suhteellista URL-osoitetta, joka toimii sekä paikallisesti että tuotannossa
-const baseUrl = '/api/persons';
+// Käytetään online URL-osoitetta, toimii tuotannossa
+const baseUrl = 'https://phonebook-backend-nl.onrender.com/api/persons';
 
 const getAll = () => {
   const request = axios.get(baseUrl);
