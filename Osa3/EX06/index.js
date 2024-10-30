@@ -26,10 +26,25 @@ let persons = [
   }
 ];
 
+// Helper function to generate a random ID
+const generateId = () => {
+  return Math.floor(Math.random() * 1000000); // Generates a random ID between 0 and 999,999
+};
+
+// Helper function to generate a random phone number format
+const generateRandomNumber = () => {
+  const part1 = Math.floor(Math.random() * 90 + 10);
+  const part2 = Math.floor(Math.random() * 90 + 10);
+  const part3 = Math.floor(Math.random() * 9000000 + 1000000);
+  return `${part1}-${part2}-${part3}`;
+};
+
+// GET all persons
 app.get('/api/persons', (req, res) => {
   res.json(persons);
 });
 
+// GET a single person by ID
 app.get('/api/persons/:id', (req, res) => {
   const id = Number(req.params.id);
   const person = persons.find(person => person.id === id);
@@ -41,6 +56,7 @@ app.get('/api/persons/:id', (req, res) => {
   }
 });
 
+// GET info about phonebook
 app.get('/info', (req, res) => {
   const numberOfPersons = persons.length;
   const currentTime = new Date();
@@ -51,34 +67,35 @@ app.get('/info', (req, res) => {
   `);
 });
 
+// DELETE a person by ID
 app.delete('/api/persons/:id', (req, res) => {
   const id = Number(req.params.id);
   persons = persons.filter(person => person.id !== id);
 
-  res.status(204).end();
+  res.status(204).end(); // 204 No Content
 });
 
+// POST a new person
 app.post('/api/persons', (req, res) => {
   const body = req.body;
 
-  if (!body.name || !body.number) {
-    return res.status(400).json({
-      error: 'Name or number is missing'
-    });
+  // Check for missing name or number
+  if (!body.name) {
+    return res.status(400).json({ error: 'Name is missing' });
+  }
+  if (!body.number) {
+    return res.status(400).json({ error: 'Number is missing' });
   }
 
+  // Check for duplicate name
   if (persons.find(person => person.name === body.name)) {
-    return res.status(400).json({
-      error: 'Name must be unique'
-    });
+    return res.status(400).json({ error: 'Name must be unique' });
   }
-
-  const newId = persons.length > 0 ? Math.max(...persons.map(person => person.id)) + 1 : 1;
 
   const person = {
-    id: newId,
+    id: generateId(),
     name: body.name,
-    number: body.number
+    number: body.number,
   };
 
   persons = persons.concat(person);
