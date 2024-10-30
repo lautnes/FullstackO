@@ -2,6 +2,10 @@ const express = require('express');
 const morgan = require('morgan');
 const path = require('path');  // Add path module to handle file paths
 const app = express();
+const cors = require('cors'); // Lisää cors
+
+// Ota cors käyttöön **kaikille** reiteille
+app.use(cors());
 
 app.use(express.json());
 
