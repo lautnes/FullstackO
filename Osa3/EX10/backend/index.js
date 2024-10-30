@@ -1,14 +1,20 @@
 const express = require('express');
 const morgan = require('morgan');
-const cors = require('cors'); // Lisää cors
+const path = require('path');  // Add path module to handle file paths
 const app = express();
 
-// Ota cors käyttöön **kaikille** reiteille
-app.use(cors());
-
 app.use(express.json());
-morgan.token('body', (req) => req.method === 'POST' ? JSON.stringify(req.body) : '');
+
+// Define custom morgan token for logging request body if it exists
+morgan.token('body', (req) => {
+  return req.method === 'POST' ? JSON.stringify(req.body) : '';
+});
+
+// Configure morgan to use the custom format
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'));
+
+// Serve static files from the 'dist' directory (frontend build)
+app.use(express.static(path.join(__dirname, 'dist')));
 
 let persons = [
   {
@@ -33,10 +39,17 @@ let persons = [
   }
 ];
 
+// Helper function to generate a random ID
+const generateId = () => {
+  return Math.floor(Math.random() * 1000000);
+};
+
+// GET all persons
 app.get('/api/persons', (req, res) => {
   res.json(persons);
 });
 
+// GET a single person by ID
 app.get('/api/persons/:id', (req, res) => {
   const id = Number(req.params.id);
   const person = persons.find(person => person.id === id);
@@ -48,6 +61,7 @@ app.get('/api/persons/:id', (req, res) => {
   }
 });
 
+// GET info about phonebook
 app.get('/info', (req, res) => {
   const numberOfPersons = persons.length;
   const currentTime = new Date();
@@ -58,6 +72,7 @@ app.get('/info', (req, res) => {
   `);
 });
 
+// DELETE a person by ID
 app.delete('/api/persons/:id', (req, res) => {
   const id = Number(req.params.id);
   persons = persons.filter(person => person.id !== id);
@@ -65,42 +80,47 @@ app.delete('/api/persons/:id', (req, res) => {
   res.status(204).end();
 });
 
+// POST a new person
 app.post('/api/persons', (req, res) => {
   const body = req.body;
 
-  if (!body.name || !body.number) {
-    return res.status(400).json({
-      error: 'Name or number is missing'
-    });
+  // Check for missing name or number
+  if (!body.name) {
+    return res.status(400).json({ error: 'Name is missing' });
+  }
+  if (!body.number) {
+    return res.status(400).json({ error: 'Number is missing' });
   }
 
+  // Check for duplicate name
   if (persons.find(person => person.name === body.name)) {
-    return res.status(400).json({
-      error: 'Name must be unique'
-    });
+    return res.status(400).json({ error: 'Name must be unique' });
   }
-
-  const newId = persons.length > 0 ? Math.max(...persons.map(person => person.id)) + 1 : 1;
 
   const person = {
-    id: newId,
+    id: generateId(),
     name: body.name,
-    number: body.number
+    number: body.number,
   };
 
   persons = persons.concat(person);
   res.json(person);
 });
 
-// Tuntemattomien endpointien käsittely
+// Middleware for handling unknown endpoints
 const unknownEndpoint = (req, res) => {
-  res.status(404).send({ error: 'unknown endpoint' });
+  res.status(404).json({ error: 'unknown endpoint' });
 };
 
+// Register unknownEndpoint middleware after all routes
 app.use(unknownEndpoint);
+
+// Serve index.html for any unknown paths (client-side routing support)
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
+});
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
-
