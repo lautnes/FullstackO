@@ -56,6 +56,4 @@ blogsRouter.put('/:id', async (req, res) => {
   }
 });
 
-
-
 module.exports = blogsRouter;
