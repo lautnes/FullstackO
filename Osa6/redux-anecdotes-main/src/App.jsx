@@ -1,17 +1,17 @@
-import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { initializeAnecdotes } from './reducers/anecdoteReducer'
-import Notification from './components/Notification'
-import AnecdoteForm from './components/AnecdoteForm'
-import AnecdoteList from './components/AnecdoteList'
-import Filter from './components/Filter'
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { initializeAnecdotes } from './reducers/anecdoteReducer';
+import Notification from './components/Notification';
+import AnecdoteForm from './components/AnecdoteForm';
+import AnecdoteList from './components/AnecdoteList';
+import Filter from './components/Filter';
 
 const App = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(initializeAnecdotes())
-  }, [dispatch])
+    dispatch(initializeAnecdotes());
+  }, [dispatch]);
 
   return (
     <div>
@@ -21,7 +21,7 @@ const App = () => {
       <AnecdoteList />
       <AnecdoteForm />
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;

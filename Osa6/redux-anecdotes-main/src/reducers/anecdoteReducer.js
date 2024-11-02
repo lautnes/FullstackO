@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import anecdoteService from '../services/anecdotes'
+import { getAll, createNew, update } from '../services/anecdotes'
 
 // Set initial state to an empty array
 const initialState = []
@@ -31,13 +31,13 @@ export const { setAnecdotes, appendAnecdote, voteAnecdote } = anecdoteSlice.acti
 
 // Asynchronous thunk action to fetch anecdotes from the backend
 export const initializeAnecdotes = () => async (dispatch) => {
-  const anecdotes = await anecdoteService.getAll()
+  const anecdotes = await getAll() // Use getAll directly
   dispatch(setAnecdotes(anecdotes))
 }
 
 // Asynchronous thunk action to add a new anecdote to the backend
 export const createAnecdote = (content) => async (dispatch) => {
-  const newAnecdote = await anecdoteService.createNew(content)
+  const newAnecdote = await createNew(content) // Use createNew directly
   dispatch(appendAnecdote(newAnecdote))
 }
 
@@ -45,7 +45,7 @@ export const createAnecdote = (content) => async (dispatch) => {
 export const updateVoteAnecdote = (id) => async (dispatch, getState) => {
   const anecdote = getState().anecdotes.find((a) => a.id === id)
   const updatedAnecdote = { ...anecdote, votes: anecdote.votes + 1 }
-  const response = await anecdoteService.update(id, updatedAnecdote)
+  const response = await update(id, updatedAnecdote) // Use update directly
   dispatch(voteAnecdote(response.id))
 }
 
