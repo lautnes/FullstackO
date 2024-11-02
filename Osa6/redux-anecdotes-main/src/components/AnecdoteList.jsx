@@ -2,28 +2,41 @@ import { useSelector, useDispatch } from 'react-redux'
 import { voteAnecdote } from '../reducers/anecdoteReducer'
 
 const AnecdoteList = () => {
-  const anecdotes = useSelector(state => state)
   const dispatch = useDispatch()
+  
+  const anecdotes = useSelector((state) => state.anecdotes)
+  const filter = useSelector((state) => state.filter)
 
-  const vote = (id) => {
+  // Filter anecdotes based on the filter state
+  const filteredAnecdotes = filter
+    ? anecdotes.filter((anecdote) =>
+        anecdote.content.toLowerCase().includes(filter.toLowerCase())
+      )
+    : anecdotes
+
+  const handleVote = (id) => {
     dispatch(voteAnecdote(id))
   }
 
   return (
     <div>
-      {anecdotes.map(anecdote =>
-        <div key={anecdote.id}>
-          <div>
-            {anecdote.content}
-          </div>
-          <div>
-            has {anecdote.votes}
-            <button onClick={() => vote(anecdote.id)}>vote</button>
-          </div>
-        </div>
-      )}
+      {filteredAnecdotes.map((anecdote) => (
+        <Anecdote key={anecdote.id} anecdote={anecdote} onVote={handleVote} />
+      ))}
     </div>
   )
 }
+
+const Anecdote = ({ anecdote, onVote }) => (
+  <div style={{ marginBottom: '1em' }}>
+    <div>{anecdote.content}</div>
+    <div>
+      has {anecdote.votes} votes
+      <button onClick={() => onVote(anecdote.id)} style={{ marginLeft: '0.5em' }}>
+        vote
+      </button>
+    </div>
+  </div>
+)
 
 export default AnecdoteList
