@@ -1,17 +1,28 @@
+// notificationReducer.js
 import { createSlice } from '@reduxjs/toolkit'
 
 const notificationSlice = createSlice({
   name: 'notification',
-  initialState: '', // Start with no notification
+  initialState: '',
   reducers: {
     setNotification(state, action) {
-      return action.payload // Set notification message
+      return action.payload
     },
     clearNotification() {
-      return '' // Clear notification message
+      return ''
     }
   }
 })
 
 export const { setNotification, clearNotification } = notificationSlice.actions
+
+// Enhanced action creator to set a notification with auto-clear
+export const showNotification = (message, duration) => (dispatch) => {
+  dispatch(setNotification(message))
+
+  setTimeout(() => {
+    dispatch(clearNotification())
+  }, duration * 3000) // Convert seconds to milliseconds
+}
+
 export default notificationSlice.reducer

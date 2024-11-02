@@ -1,46 +1,52 @@
 import { createSlice } from '@reduxjs/toolkit'
+import anecdoteService from '../services/anecdotes'
 
-const anecdotesAtStart = [
-  'If it hurts, do it more often',
-  'Adding manpower to a late software project makes it later!',
-  'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
-  'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
-  'Premature optimization is the root of all evil.',
-  'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
-]
-
-const getId = () => (100000 * Math.random()).toFixed(0)
-
-const initialState = anecdotesAtStart.map(anecdote => ({
-  content: anecdote,
-  id: getId(),
-  votes: 0
-}))
+// Set initial state to an empty array
+const initialState = []
 
 const anecdoteSlice = createSlice({
   name: 'anecdotes',
   initialState,
   reducers: {
+    setAnecdotes(state, action) {
+      return action.payload
+    },
+    appendAnecdote(state, action) {
+      state.push(action.payload)
+      state.sort((a, b) => b.votes - a.votes) // Sort anecdotes by votes
+    },
     voteAnecdote(state, action) {
       const id = action.payload
-      const anecdote = state.find(anecdote => anecdote.id === id)
+      const anecdote = state.find((anecdote) => anecdote.id === id)
       if (anecdote) {
         anecdote.votes += 1
       }
       state.sort((a, b) => b.votes - a.votes) // Sort anecdotes by votes after voting
-    },
-    addAnecdote(state, action) {
-      const newAnecdote = {
-        content: action.payload,
-        id: getId(),
-        votes: 0
-      }
-      state.push(newAnecdote)
-      state.sort((a, b) => b.votes - a.votes) // Sort anecdotes by votes after adding
     }
   }
 })
 
-// Export actions and reducer
-export const { voteAnecdote, addAnecdote } = anecdoteSlice.actions
+// Export synchronous actions
+export const { setAnecdotes, appendAnecdote, voteAnecdote } = anecdoteSlice.actions
+
+// Asynchronous thunk action to fetch anecdotes from the backend
+export const initializeAnecdotes = () => async (dispatch) => {
+  const anecdotes = await anecdoteService.getAll()
+  dispatch(setAnecdotes(anecdotes))
+}
+
+// Asynchronous thunk action to add a new anecdote to the backend
+export const createAnecdote = (content) => async (dispatch) => {
+  const newAnecdote = await anecdoteService.createNew(content)
+  dispatch(appendAnecdote(newAnecdote))
+}
+
+// Asynchronous thunk action to update vote count in the backend
+export const updateVoteAnecdote = (id) => async (dispatch, getState) => {
+  const anecdote = getState().anecdotes.find((a) => a.id === id)
+  const updatedAnecdote = { ...anecdote, votes: anecdote.votes + 1 }
+  const response = await anecdoteService.update(id, updatedAnecdote)
+  dispatch(voteAnecdote(response.id))
+}
+
 export default anecdoteSlice.reducer
