@@ -1,0 +1,25 @@
+# Get all blogs
+GET http://localhost:3003/api/blogs
+Content-Type: application/json
+
+
+### POST a new blog
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "title": "Interesting Blog Post",
+  "author": "Author Name",
+  "url": "http://example.com/interesting-post",
+  "likes": 10
+}
+
+### Invalid POST request (missing 'title' field)
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+  "author": "Incomplete Author",
+  "url": "http://example.com/incomplete-post",
+  "likes": 5
+}

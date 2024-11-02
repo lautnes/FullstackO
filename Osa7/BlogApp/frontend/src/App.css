@@ -1,0 +1,275 @@
+/* App.css */
+
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+
+.app-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* Notification Styles */
+.notification {
+    padding: 10px;
+    margin: 20px auto;
+    border-radius: 5px;
+    font-weight: bold;
+    max-width: 600px;
+    text-align: center;
+}
+
+.notification.error {
+    background-color: #ffdddd;
+    color: #a94442;
+    border-left: 5px solid #d9534f;
+}
+
+.notification.success {
+    background-color: #ddffdd;
+    color: #3c763d;
+    border-left: 5px solid #5cb85c;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #333;
+    padding: 15px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar h1 {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #f1f1f1;
+}
+
+.navbar a {
+    color: #b0e0e6;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: bold;
+}
+
+.navbar a:hover {
+    color: #f1f1f1;
+}
+
+/* Login Section */
+.login-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.login-section p {
+    margin-right: 10px;
+}
+
+.login-section button {
+    margin-right: 10px;
+}
+
+/* BlogList Styling */
+.blog-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+}
+
+.blog-item {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.blog-title {
+    font-size: 1.2em;
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.blog-title:hover {
+    text-decoration: underline;
+}
+
+.blog-author,
+.blog-likes {
+    color: #666;
+    margin: 5px 0;
+}
+
+.like-button,
+.delete-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.delete-button {
+    background-color: #dc3545;
+}
+
+.like-button:hover {
+    background-color: #0056b3;
+}
+
+.delete-button:hover {
+    background-color: #c82333;
+}
+
+/* Form Styles */
+.togglable-form {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: 20px auto;
+}
+
+.togglable-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.togglable-form input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.togglable-form button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.togglable-form button:hover {
+    background-color: #218838;
+}
+
+/* BlogForm Component Styles */
+.blog-form {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin: auto;
+}
+
+.blog-form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.blog-form input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.blog-form button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.blog-form .create-button {
+    background-color: #28a745;
+    color: white;
+}
+
+.blog-form .create-button:hover {
+    background-color: #218838;
+}
+
+.blog-form .cancel-button {
+    background-color: #dc3545;
+    color: white;
+}
+
+.blog-form .cancel-button:hover {
+    background-color: #c82333;
+}
+
+.blog-form {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: auto;
+  }
+  
+  .blog-form h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .input-field {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  .submit-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+  }
+  
+  .submit-button:hover {
+    background-color: #0056b3;
+  }
+  
